@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דויד - מאיר לך את הדרך | ליווי פיננסי</title>
+    
+    <link href="https://googleapis.com" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #f9f3e3;
+            --white: #ffffff;
+            --text-black: #1a1a1a;
+            --text-muted: #666666;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Assistant', sans-serif;
+            margin: 0;
+            background-color: var(--white);
+            color: var(--text-black);
+            overflow-x: hidden;
+        }
+
+        /* אינסטגרם צף */
+        .insta-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: 0.3s;
+        }
+
+        header {
+            height: 100vh;
+            background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.3)), url('pic.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-bottom: 8px solid var(--gold);
+            padding: 20px;
+        }
+        header h1 {
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 800;
+            text-shadow: 2px 2px 10px rgba(255,255,255,0.8);
+            margin: 0;
+        }
+
+        .container { max-width: 1200px; margin: auto; padding: 60px 20px; }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 40px;
+            color: var(--gold);
+        }
+
+        .goals-grid, .gallery, .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .goal-card {
+            border: 2px solid var(--gold);
+            padding: 30px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .img-item {
+            position: relative;
+            height: 350px;
+            overflow: hidden;
+        }
+        .img-item img {
+            width: 100%; height: 100%; object-fit: cover; transition: 0.5s;
+        }
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(212, 175, 55, 0.9);
+            color: white;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 25px;
+            opacity: 0; transition: 0.5s; font-weight: 700;
+        }
+        .img-item:hover .overlay { opacity: 1; }
+
+        /* עיצוב חוות דעת */
+        .testimonial-card {
+            background: #fff;
+            border: 1px solid var(--gold-light);
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            transition: 0.3s;
+            text-align: center;
+        }
+        .testimonial-card:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .couple-names { font-weight: 800; color: var(--gold); margin-bottom: 10px; display: block; font-size: 1.2rem; }
+        .stars { display: block; margin-bottom: 15px; color: var(--gold); }
+        .testimonial-text { font-style: italic; font-size: 1rem; color: var(--text-muted); line-height: 1.6; }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px; margin-top: 40px;
+        }
+        .process-step { text-align: center; position: relative; padding: 20px; }
+        .step-number { font-size: 4rem; font-weight: 900; color: var(--gold); opacity: 0.15; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); z-index: -1; }
+
+        .about-section {
+            text-align: center; max-width: 800px; margin: 80px auto;
+            line-height: 1.8; font-size: 1.2rem;
+            border-right: 4px solid var(--gold); border-left: 4px solid var(--gold);
+            padding: 0 40px;
+        }
+
+        .faq-section { background-color: #fdfdfd; padding: 60px 20px; }
+        .faq-container { max-width: 850px; margin: auto; }
+        .faq-item { border-bottom: 1px solid #eee; padding: 20px 0; cursor: pointer; }
+        .faq-question { display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s ease-out; color: var(--text-muted); margin-top: 10px; }
+        .faq-item.active .faq-answer { max-height: 300px; }
+
+        .contact-form { background-color: #f9f9f9; padding: 80px 20px; text-align: center; border-top: 5px solid var(--gold); }
+        .contact-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background-color: #25D366; color: white;
+            padding: 18px 40px; border-radius: 50px;
+            text-decoration: none; font-size: 1.3rem; font-weight: 700;
+            margin-top: 20px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .about-section { border: none; border-bottom: 3px solid var(--gold); padding: 0 20px 20px; }
+            .img-item { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="https://www.instagram.com/davidmeir.financial/" class="insta-link" target="_blank">📱</a>
+
+    <header>
+        <h1>דויד - מאיר לך את הדרך</h1>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">מה מטרת הליווי?</h2>
+        <div class="goals-grid">
+            <div class="goal-card"><h3>ביטחון כלכלי</h3><p>יצירת שקט נפשי וניהול סיכונים חכם למשפחה.</p></div>
+            <div class="goal-card"><h3>צמיחה והשקעות</h3><p>בניית תוכנית עבודה להגדלת ההון האישי.</p></div>
+            <div class="goal-card"><h3>סדר וארגון</h3><p>מיפוי מדויק של הכנסות מול הוצאות ושליטה מלאה.</p></div>
+            <div class="goal-card"><h3>תכנון עתידי</h3><p>הכנה לפנסיה, רכישת נכס או כל יעד גדול אחר.</p></div>
+            <div class="goal-card"><h3>ייעוץ משכנתאות</h3><p>אופטימיזציה של מסלולי ההלוואה החשובים ביותר.</p></div>
+            <div class="goal-card"><h3>חינוך פיננסי</h3><p>רכישת כלים ויידע שישארו איתכם לכל החיים.</p></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="gallery">
+            <div class="img-item"><img src="pic47.jpg" alt="1"><div class="overlay">הכסף שלכם יכול לעבוד בשבילכם.</div></div>
+            <div class="img-item"><img src="pic48.jpg" alt="2"><div class="overlay">העתיד הכלכלי שלכם מתחיל היום.</div></div>
+            <div class="img-item"><img src="pic12.jpg" alt="3"><div class="overlay">ליווי נכון הוא ההבדל בין חלום לתוצאה.</div></div>
+            <div class="img-item"><img src="pic13.jpg" alt="4"><div class="overlay">חופש כלכלי הוא תוצאה של תכנון.</div></div>
+            <div class="img-item"><img src="pic.jpg" alt="5"><div class="overlay">השקעה בעצמך היא המשתלמת ביותר.</div></div>
+            <div class="img-item"><img src="pic47.jpg" alt="6"><div class="overlay">תתחילו לכבוש את היעדים שלכם.</div></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title">לקוחות מספרים</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <span class="stars">⭐⭐⭐⭐⭐</span>
+                <span class="couple-names">אורית ובן</span>
+                <p class="testimonial-text">"הגענו עם בלאגן בחשבונות. בתהליך ממוקד דויד עזר לנו למפות הוצאות, בנה תוכנית הבראה וסגרנו את המינוס תוך 3 חודשים. היום אנחנו חוסכים לדירה."</p>
+            </div>
+            <div class="testimonial-card">
+                <span class="stars">⭐⭐⭐⭐⭐</span>
+                <span class="couple-names">מיכל ויונתן</span>
+                <p class="testimonial-text">"חיפשנו דרך להגדיל את ההון. דויד עשה סדר בתיק ההשקעות, הסביר הכל בגובה העיניים ונתן לנו ביטחון לקחת החלטות חכמות לעתיד הילדים."</p>
+            </div>
+            <div class="testimonial-card">
+                <span class="stars">⭐⭐⭐⭐⭐</span>
+                <span class="couple-names">רוני ואלעד</span>
+                <p class="testimonial-text">"המשחק משנה חיים עבורנו. דויד מצא כפילויות בביטוחים שחסכו לנו מאות שקלים בחודש, וסידר מסלול משכנתא חדש שחסך לנו עשרות אלפי שקלים."</p>
+            </div>
+            <div class="testimonial-card">
+                <span class="stars">⭐⭐⭐⭐⭐</span>
+                <span class="couple-names">דנה ואיתי</span>
+                <p class="testimonial-text">"דויד לימד אותנו שניהול כסף הוא שינוי הרגלים. עברנו מהישרדות חודשית לתכנון ארוך טווח. השקט הנפשי שקיבלנו בזכות הליווי שווה הכל."</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title">איך זה עובד?</h2>
+        <div class="process-grid">
+            <div class="process-step"><div class="step-number">01</div><h3>שיחת הכרות</h3><p>הבנת הצרכים שלכם ובדיקת התאמה.</p></div>
+            <div class="process-step"><div class="step-number">02</div><h3>צילום מצב</h3><p>ניתוח מעמיק של הנכסים וההתחייבויות.</p></div>
+            <div class="process-step"><div class="step-number">03</div><h3>יציאה לדרך</h3><p>ליווי צמוד עד להשגת היעדים הכלכליים.</p></div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <h2 style="color: var(--gold); font-weight: 800;">אודות הליווי</h2>
+        <p>הליווי הפיננסי הוא המצפן שמאיר את הדרך. המטרה היא להפוך ידע לנגיש ולאפשר חופש בחירה לכל משפחה. זהו שינוי תפיסה המאפשר לבנות יציבות ולהבטיח שגשוג לדורות הבאים.</p>
+    </div>
+
+    <section class="faq-section">
+        <div class="faq-container">
+            <h2 class="section-title">שאלות נפוצות</h2>
+            <div class="faq-item"><div class="faq-question">האם הליווי מתאים גם למי שבמינוס? <span>❓</span></div><div class="faq-answer">בהחלט. הליווי מתמקד קודם כל ביצירת תזרים חיובי וסגירת חובות.</div></div>
+            <div class="faq-item"><div class="faq-question">תוך כמה זמן רואים תוצאות? <span>❓</span></div><div class="faq-answer">כבר בחודש הראשון! השליטה בכסף נותנת שקט נפשי מיידי.</div></div>
+            <div class="faq-item"><div class="faq-question">למה אני צריך ליווי אם אני יכול לבד? <span>❓</span></div><div class="faq-answer">עם מלווה מגיעים לתוצאות מהר יותר ונמנעים מטעויות יקרות.</div></div>
+            <div class="faq-item"><div class="faq-question">כמה זמן נמשך התהליך? <span>❓</span></div><div class="faq-answer">בדרך כלל מדובר בתקופה של 3 עד 6 חודשים של עבודה משותפת.</div></div>
+        </div>
+    </section>
+
+    <div class="contact-form">
+        <h2 class="section-title">מוכנים לעשות סדר?</h2>
+        <div><strong>דויד | 053-6229896</strong></div>
+        <a href="https://wa.me/972536229896" class="contact-btn" target="_blank">💬 וואטסאפ ביזנס</a>
+    </div>
+
+    <script>
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => item.classList.toggle('active'));
+        });
+    </script>
+</body>
+</html>
